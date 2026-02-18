@@ -104,24 +104,40 @@ class TodoBoard extends Page
 
     public function editListAction(): Action
     {
-        return EditAction::make('editList')
+        return Action::make('editList')
             ->model(TodoList::class)
+            ->label('Edit')
+            ->icon('heroicon-m-pencil')
+            ->color('gray')
             ->form([
                 TextInput::make('title')->required(),
             ])
-            ->after(fn() => $this->refreshBoard());
+            ->fillForm(fn(TodoList $record): array => [
+                'title' => $record->title,
+            ])
+            ->action(function (array $data, TodoList $record): void {
+                $record->update($data);
+                $this->refreshBoard();
+            });
     }
 
     public function deleteListAction(): Action
     {
-        return DeleteAction::make('deleteList')
+        return Action::make('deleteList')
             ->model(TodoList::class)
-            ->after(fn() => $this->refreshBoard());
+            ->label('Delete')
+            ->icon('heroicon-m-trash')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function (TodoList $record): void {
+                $record->delete();
+                $this->refreshBoard();
+            });
     }
 
     public function createItemAction(): Action
     {
-        return CreateAction::make('createItem')
+        return Action::make('createItem')
             ->model(TodoItem::class)
             ->form([
                 TextInput::make('title')->required(),
@@ -134,15 +150,24 @@ class TodoBoard extends Page
                     ])
                     ->default('normal'),
                 DatePicker::make('due_date'),
-                // Hidden field for list_id will be set via arguments or default
                 TextInput::make('todo_list_id')->hidden(),
             ])
-            ->after(fn() => $this->refreshBoard());
+            ->action(function (array $data, array $arguments): void {
+                $listId = $arguments['todo_list_id'] ?? $data['todo_list_id'] ?? null;
+
+                if ($listId) {
+                    TodoItem::create([
+                        ...$data,
+                        'todo_list_id' => $listId,
+                    ]);
+                    $this->refreshBoard();
+                }
+            });
     }
 
     public function editItemAction(): Action
     {
-        return EditAction::make('editItem')
+        return Action::make('editItem')
             ->model(TodoItem::class)
             ->form([
                 TextInput::make('title')->required(),
@@ -155,13 +180,26 @@ class TodoBoard extends Page
                     ]),
                 DatePicker::make('due_date'),
             ])
-            ->after(fn() => $this->refreshBoard());
+            ->fillForm(fn(TodoItem $record): array => [
+                'title' => $record->title,
+                'description' => $record->description,
+                'priority' => $record->priority,
+                'due_date' => $record->due_date,
+            ])
+            ->action(function (array $data, TodoItem $record): void {
+                $record->update($data);
+                $this->refreshBoard();
+            });
     }
 
     public function deleteItemAction(): Action
     {
-        return DeleteAction::make('deleteItem')
+        return Action::make('deleteItem')
             ->model(TodoItem::class)
-            ->after(fn() => $this->refreshBoard());
+            ->requiresConfirmation()
+            ->action(function (TodoItem $record): void {
+                $record->delete();
+                $this->refreshBoard();
+            });
     }
 }
