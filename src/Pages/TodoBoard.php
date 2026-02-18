@@ -17,7 +17,7 @@ use Filament\Pages\Page;
 
 class TodoBoard extends Page
 {
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected string $view = 'filament-todo::filament.pages.todo-board';
 
