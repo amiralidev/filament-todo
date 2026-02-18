@@ -7,8 +7,6 @@ use Amiralidev\Filament\Models\TodoList;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -112,7 +110,7 @@ class TodoBoard extends Page
             ->form([
                 TextInput::make('title')->required(),
             ])
-            ->fillForm(fn(TodoList $record): array => [
+            ->fillForm(fn (TodoList $record): array => [
                 'title' => $record->title,
             ])
             ->action(function (array $data, TodoList $record): void {
@@ -180,7 +178,7 @@ class TodoBoard extends Page
                     ]),
                 DatePicker::make('due_date'),
             ])
-            ->fillForm(fn(TodoItem $record): array => [
+            ->fillForm(fn (TodoItem $record): array => [
                 'title' => $record->title,
                 'description' => $record->description,
                 'priority' => $record->priority,
