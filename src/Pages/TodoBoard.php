@@ -19,7 +19,7 @@ class TodoBoard extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static string $view = 'filament-todo::filament.pages.todo-board';
+    protected string $view = 'filament-todo::filament.pages.todo-board';
 
     protected static ?string $title = 'Todo Board';
 
