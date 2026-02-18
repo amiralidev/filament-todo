@@ -1,20 +1,28 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Amiralidev\Filament;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Amiralidev\Filament\Pages;
+use Amiralidev\Filament\Widgets;
 
-class SkeletonPlugin implements Plugin
+class TodoPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'filament-todo';
     }
 
     public function register(Panel $panel): void
     {
-        //
+        $panel
+            ->pages([
+                Pages\TodoBoard::class,
+            ])
+            ->widgets([
+                Widgets\TodoBoardWidget::class,
+            ]);
     }
 
     public function boot(Panel $panel): void

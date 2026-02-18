@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Amiralidev\Filament;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
@@ -13,14 +13,14 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
-use VendorName\Skeleton\Testing\TestsSkeleton;
+use Amiralidev\Filament\Commands\TodoCommand;
+use Amiralidev\Filament\Testing\TestsTodo;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class TodoServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-todo';
 
-    public static string $viewNamespace = 'skeleton';
+    public static string $viewNamespace = 'filament-todo';
 
     public function configurePackage(Package $package): void
     {
@@ -30,13 +30,12 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package->name(static::$name)
-            ->hasCommands($this->getCommands())
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub(':vendor_slug/:package_slug');
+                    ->askToStarRepoOnGitHub('amiralidev/filament-todo');
             });
 
         $configFileName = $package->shortName();
@@ -58,7 +57,9 @@ class SkeletonServiceProvider extends PackageServiceProvider
         }
     }
 
-    public function packageRegistered(): void {}
+    public function packageRegistered(): void
+    {
+    }
 
     public function packageBooted(): void
     {
@@ -80,18 +81,18 @@ class SkeletonServiceProvider extends PackageServiceProvider
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/skeleton/{$file->getFilename()}"),
-                ], 'skeleton-stubs');
+                    $file->getRealPath() => base_path("stubs/filament-todo/{$file->getFilename()}"),
+                ], 'filament-todo-stubs');
             }
         }
 
         // Testing
-        Testable::mixin(new TestsSkeleton);
+        // Testable::mixin(new TestsTodo);
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return ':vendor_slug/:package_slug';
+        return 'amiralidev/filament-todo';
     }
 
     /**
@@ -100,9 +101,9 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            // AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            // Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
-            // Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
+            // AlpineComponent::make('filament-todo', __DIR__ . '/../resources/dist/components/filament-todo.js'),
+            // Css::make('filament-todo-styles', __DIR__ . '/../resources/dist/filament-todo.css'),
+            // Js::make('filament-todo-scripts', __DIR__ . '/../resources/dist/filament-todo.js'),
         ];
     }
 
@@ -112,7 +113,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            SkeletonCommand::class,
+            // TodoCommand::class,
         ];
     }
 
@@ -146,7 +147,8 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_skeleton_table',
+            'create_todo_lists_table',
+            'create_todo_items_table',
         ];
     }
 }
