@@ -6,15 +6,13 @@ use Amiralidev\Filament\Models\TodoItem;
 use Amiralidev\Filament\Models\TodoList;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Support\Collection;
 
 class TodoBoard extends Page
 {
@@ -48,7 +46,7 @@ class TodoBoard extends Page
                         $query->where('title', 'like', "%{$this->search}%")
                             ->orWhere('description', 'like', "%{$this->search}%");
                     }
-                }
+                },
             ])
             ->orderBy('sort_order')
             ->get();
@@ -82,7 +80,7 @@ class TodoBoard extends Page
     public function reorderItems(array $order): void
     {
         // $order is structured as [{id: 1, list_id: 2}, ...] or just ids if list didn't change?
-        // Actually ensuring SortableJS sends correct data is key. 
+        // Actually ensuring SortableJS sends correct data is key.
         // We'll assume receiving checks for list changes too.
 
         foreach ($order as $itemData) {
@@ -101,14 +99,14 @@ class TodoBoard extends Page
             ->form([
                 TextInput::make('title')->required(),
             ])
-            ->after(fn() => $this->refreshBoard());
+            ->after(fn () => $this->refreshBoard());
     }
 
     public function deleteListAction(): Action
     {
         return DeleteAction::make('deleteList')
             ->model(TodoList::class)
-            ->after(fn() => $this->refreshBoard());
+            ->after(fn () => $this->refreshBoard());
     }
 
     public function createItemAction(): Action
@@ -129,7 +127,7 @@ class TodoBoard extends Page
                 // Hidden field for list_id will be set via arguments or default
                 TextInput::make('todo_list_id')->hidden(),
             ])
-            ->after(fn() => $this->refreshBoard());
+            ->after(fn () => $this->refreshBoard());
     }
 
     public function editItemAction(): Action
@@ -147,13 +145,13 @@ class TodoBoard extends Page
                     ]),
                 DatePicker::make('due_date'),
             ])
-            ->after(fn() => $this->refreshBoard());
+            ->after(fn () => $this->refreshBoard());
     }
 
     public function deleteItemAction(): Action
     {
         return DeleteAction::make('deleteItem')
             ->model(TodoItem::class)
-            ->after(fn() => $this->refreshBoard());
+            ->after(fn () => $this->refreshBoard());
     }
 }
