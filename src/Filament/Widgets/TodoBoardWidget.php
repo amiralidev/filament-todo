@@ -9,7 +9,7 @@ class TodoBoardWidget extends Widget
 {
     protected static string $view = 'filament-todo::filament.widgets.todo-board-widget';
 
-    protected int|string|array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 'full';
 
     public function mount(): void
     {

@@ -4,8 +4,6 @@ namespace Amiralidev\Filament;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Amiralidev\Filament\Pages;
-use Amiralidev\Filament\Widgets;
 
 class TodoPlugin implements Plugin
 {

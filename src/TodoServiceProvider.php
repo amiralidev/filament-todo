@@ -2,6 +2,8 @@
 
 namespace Amiralidev\Filament;
 
+use Amiralidev\Filament\Commands\TodoCommand;
+use Amiralidev\Filament\Testing\TestsTodo;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
@@ -13,8 +15,6 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Amiralidev\Filament\Commands\TodoCommand;
-use Amiralidev\Filament\Testing\TestsTodo;
 
 class TodoServiceProvider extends PackageServiceProvider
 {
@@ -57,9 +57,7 @@ class TodoServiceProvider extends PackageServiceProvider
         }
     }
 
-    public function packageRegistered(): void
-    {
-    }
+    public function packageRegistered(): void {}
 
     public function packageBooted(): void
     {

@@ -2,6 +2,4 @@
 
 namespace Amiralidev\Filament;
 
-class Todo
-{
-}
+class Todo {}
