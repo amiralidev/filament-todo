@@ -4,6 +4,7 @@ namespace Amiralidev\Filament\Pages;
 
 use Amiralidev\Filament\Models\TodoItem;
 use Amiralidev\Filament\Models\TodoList;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -16,7 +17,7 @@ use Filament\Pages\Page;
 
 class TodoBoard extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static string $view = 'filament-todo::filament.pages.todo-board';
 
@@ -99,14 +100,14 @@ class TodoBoard extends Page
             ->form([
                 TextInput::make('title')->required(),
             ])
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function deleteListAction(): Action
     {
         return DeleteAction::make('deleteList')
             ->model(TodoList::class)
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function createItemAction(): Action
@@ -127,7 +128,7 @@ class TodoBoard extends Page
                 // Hidden field for list_id will be set via arguments or default
                 TextInput::make('todo_list_id')->hidden(),
             ])
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function editItemAction(): Action
@@ -145,13 +146,13 @@ class TodoBoard extends Page
                     ]),
                 DatePicker::make('due_date'),
             ])
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function deleteItemAction(): Action
     {
         return DeleteAction::make('deleteItem')
             ->model(TodoItem::class)
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 }
