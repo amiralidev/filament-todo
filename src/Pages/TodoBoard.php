@@ -15,7 +15,7 @@ use Filament\Pages\Page;
 
 class TodoBoard extends Page
 {
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected string $view = 'filament-todo::filament.pages.todo-board';
 
@@ -110,7 +110,7 @@ class TodoBoard extends Page
             ->form([
                 TextInput::make('title')->required(),
             ])
-            ->fillForm(fn(TodoList $record): array => [
+            ->fillForm(fn (TodoList $record): array => [
                 'title' => $record->title,
             ])
             ->action(function (array $data, TodoList $record): void {
@@ -178,7 +178,7 @@ class TodoBoard extends Page
                     ]),
                 DatePicker::make('due_date'),
             ])
-            ->fillForm(fn(TodoItem $record): array => [
+            ->fillForm(fn (TodoItem $record): array => [
                 'title' => $record->title,
                 'description' => $record->description,
                 'priority' => $record->priority,
