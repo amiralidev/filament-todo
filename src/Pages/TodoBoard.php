@@ -17,7 +17,7 @@ use Filament\Pages\Page;
 
 class TodoBoard extends Page
 {
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected string $view = 'filament-todo::filament.pages.todo-board';
 
@@ -56,18 +56,27 @@ class TodoBoard extends Page
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make('createList')
-                ->label('New List')
-                ->model(TodoList::class)
-                ->form([
-                    TextInput::make('title')
-                        ->required()
-                        ->maxLength(255),
-                ])
-                ->after(function () {
-                    $this->refreshBoard();
-                }),
+            // Actions added here will be rendered in the default header.
+            // Since we are rendering the create button manually in the view, we might not need it here,
+            // or we can keep it as a duplicate/fallback.
+            // For now, I'll remove it from here to avoid duplication if the view handles it.
+            $this->createListAction(),
         ];
+    }
+
+    public function createListAction(): Action
+    {
+        return CreateAction::make('createList')
+            ->label('New List')
+            ->model(TodoList::class)
+            ->form([
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+            ])
+            ->after(function () {
+                $this->refreshBoard();
+            });
     }
 
     public function reorderLists(array $order): void
@@ -100,14 +109,14 @@ class TodoBoard extends Page
             ->form([
                 TextInput::make('title')->required(),
             ])
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function deleteListAction(): Action
     {
         return DeleteAction::make('deleteList')
             ->model(TodoList::class)
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function createItemAction(): Action
@@ -128,7 +137,7 @@ class TodoBoard extends Page
                 // Hidden field for list_id will be set via arguments or default
                 TextInput::make('todo_list_id')->hidden(),
             ])
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function editItemAction(): Action
@@ -146,13 +155,13 @@ class TodoBoard extends Page
                     ]),
                 DatePicker::make('due_date'),
             ])
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 
     public function deleteItemAction(): Action
     {
         return DeleteAction::make('deleteItem')
             ->model(TodoItem::class)
-            ->after(fn () => $this->refreshBoard());
+            ->after(fn() => $this->refreshBoard());
     }
 }
